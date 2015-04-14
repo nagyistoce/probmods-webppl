@@ -14,6 +14,7 @@
 // erp.score(params, val) returns the log-probability of val under the distribution.
 // erp.support(params) gives an array of support elements.
 // erp.grad(params, val) gives the gradient of score at val wrt params.
+// erp.proposalParams(params, val) returns the new parameters to be used for drifting MH proposal distributions.
 
 'use strict';
 
@@ -21,11 +22,12 @@ var _ = require('underscore');
 var util = require('./util.js');
 
 
-function ERP(sampler, scorer, supporter, grad) {
+function ERP(sampler, scorer, supporter, grad, proposalParams) {
   this.sample = sampler;
   this.score = scorer;
   this.support = supporter;
   this.grad = grad;
+  this.proposalParams = proposalParams;
 }
 
 var uniformERP = new ERP(
@@ -98,7 +100,13 @@ function gaussianScore(params, x) {
   return -0.5 * (1.8378770664093453 + 2 * Math.log(sigma) + (x - mu) * (x - mu) / (sigma * sigma));
 }
 
-var gaussianERP = new ERP(gaussianSample, gaussianScore);
+function gaussianProposalParams(params, prevVal, scaling){
+  var mu = prevVal || params[0];
+  var sigma = params[1] * scaling;
+  return [mu, sigma];
+}
+
+var gaussianERP = new ERP(gaussianSample, gaussianScore, undefined, undefined, gaussianProposalParams);
 
 var discreteERP = new ERP(
     function discreteSample(params) {
