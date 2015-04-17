@@ -44,7 +44,7 @@ var uniformERP = new ERP(
       }
       return -Math.log(params[1] - params[0]);
     }
-);
+    );
 
 var bernoulliERP = new ERP(
     function flipSample(params) {
@@ -69,7 +69,7 @@ var bernoulliERP = new ERP(
         return val ? [1 / weight] : [-1 / weight];
       }
     }
-);
+    );
 
 
 var randomIntegerERP = new ERP(
@@ -86,7 +86,7 @@ var randomIntegerERP = new ERP(
         return _.range(params[0]);
       }
     }
-);
+    );
 
 function gaussianSample(params) {
   var mu = params[0];
@@ -126,7 +126,7 @@ var discreteERP = new ERP(
             return _.range(params[0].length);
           }
     }
-);
+    );
 
 var gammaCof = [
   76.18009172947146,
@@ -179,7 +179,7 @@ var gammaERP = new ERP(
       var x = val;
       return (a - 1) * Math.log(x) - x / b - logGamma(a) - a * Math.log(b);
     }
-);
+    );
 
 var exponentialERP = new ERP(
     function exponentialSample(params) {
@@ -191,7 +191,7 @@ var exponentialERP = new ERP(
       var a = params[0];
       return Math.log(a) - a * val;
     }
-);
+    );
 
 function logBeta(a, b) {
   return logGamma(a) + logGamma(b) - logGamma(a + b);
@@ -214,7 +214,7 @@ var betaERP = new ERP(
           (a - 1) * Math.log(x) + (b - 1) * Math.log(1 - x) - logBeta(a, b) :
           -Infinity);
     }
-);
+    );
 
 function binomialG(x) {
   if (x === 0) {
@@ -295,7 +295,7 @@ var binomialERP = new ERP(
             return _.range(params[1]).concat([params[1]]);
           }
     }
-);
+    );
 
 function fact(x) {
   var t = 1;
@@ -351,7 +351,7 @@ var poissonERP = new ERP(
       var k = val;
       return k * Math.log(mu) - mu - lnfact(k);
     }
-);
+    );
 
 function dirichletSample(params) {
   var alpha = params;
@@ -484,14 +484,11 @@ module.exports = {
   randomIntegerERP: randomIntegerERP,
   uniformERP: uniformERP,
   makeMarginalERP: makeMarginalERP,
-<<<<<<< HEAD
-  makeDeltaERP: makeDeltaERP
-=======
+  makeDeltaERP: makeDeltaERP,
   gaussianSample: gaussianSample,
   gaussianScore: gaussianScore,
   dirichletSample: dirichletSample,
   dirichletScore: dirichletScore
->>>>>>> Remove MH proposalParams from ERPs.
 };
 
 
